@@ -1,6 +1,7 @@
 'use client'
 import { Fragment, useState, useEffect } from 'react'
 import Sidebar from '@/components/Sidebar'
+import MobileNav from '@/components/MobileNav'
 import { ClipboardList, Loader2, ChevronDown, ChevronUp } from 'lucide-react'
 import { format } from 'date-fns'
 import clsx from 'clsx'
@@ -26,8 +27,9 @@ export default function AuditPage() {
   return (
     <div className="flex min-h-screen">
       <Sidebar />
+      <MobileNav />
       <main className="flex-1 overflow-auto">
-        <div className="max-w-4xl mx-auto px-6 py-8 space-y-6">
+        <div className="max-w-4xl mx-auto px-4 md:px-6 py-6 pb-24 md:pb-8 space-y-6">
           <div>
             <h1 className="text-2xl font-bold text-white">Audit Log</h1>
             <p className="text-slate-400 text-sm mt-1">

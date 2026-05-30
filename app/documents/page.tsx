@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
 import Sidebar from '@/components/Sidebar'
+import MobileNav from '@/components/MobileNav'
 import { FileText, Upload, Loader2, File, Eye, X } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import clsx from 'clsx'
@@ -51,8 +52,9 @@ export default function DocumentsPage() {
   return (
     <div className="flex min-h-screen">
       <Sidebar />
+      <MobileNav />
       <main className="flex-1 overflow-auto">
-        <div className="max-w-4xl mx-auto px-6 py-8 space-y-6">
+        <div className="max-w-4xl mx-auto px-4 md:px-6 py-6 pb-24 md:pb-8 space-y-6">
           <div>
             <h1 className="text-2xl font-bold text-white">Documents</h1>
             <p className="text-slate-400 text-sm mt-1">Upload PDFs and DOCX files for the AI to search and reference.</p>

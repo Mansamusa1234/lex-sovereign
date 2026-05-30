@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Sidebar from '@/components/Sidebar'
+import MobileNav from '@/components/MobileNav'
 import { Mail, RefreshCw, AlertTriangle, Eye, Loader2, Send, Plus, X } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import clsx from 'clsx'
@@ -99,8 +100,9 @@ export default function EmailsPage() {
   return (
     <div className="flex min-h-screen">
       <Sidebar />
+      <MobileNav />
       <main className="flex-1 overflow-auto">
-        <div className="max-w-5xl mx-auto px-6 py-8 space-y-6">
+        <div className="max-w-5xl mx-auto px-4 md:px-6 py-6 pb-24 md:pb-8 space-y-6">
 
           <div className="flex items-start justify-between gap-4">
             <div>

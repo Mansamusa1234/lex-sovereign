@@ -13,6 +13,7 @@ import {
   CheckSquare, BookOpen, FileText, Users, Send,
   AlertCircle, Sparkles, ChevronRight, Mic
 } from 'lucide-react'
+import MobileNav from '@/components/MobileNav'
 import type { AuditEntry, Approval, RiskFlag } from '@/lib/types'
 import clsx from 'clsx'
 
@@ -240,8 +241,9 @@ export default function DashboardPage() {
       {/* Ambient love-motion glow */}
       <div className="ambient-glow" aria-hidden />
       <Sidebar pendingCount={pending} />
+      <MobileNav pendingCount={pending} />
       <main className="flex-1 overflow-auto relative z-10">
-        <div className="max-w-6xl mx-auto px-6 py-8 space-y-8">
+        <div className="max-w-6xl mx-auto px-4 md:px-6 py-6 pb-24 md:pb-8 space-y-6 md:space-y-8">
 
           {/* Header */}
           <div className="flex items-start justify-between">

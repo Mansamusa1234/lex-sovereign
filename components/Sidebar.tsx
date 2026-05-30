@@ -26,7 +26,7 @@ export default function Sidebar({ pendingCount = 0 }: { pendingCount?: number })
     pathname === href || (href !== '/dashboard' && pathname.startsWith(href))
 
   return (
-    <aside className="w-64 min-h-screen bg-slate-900 border-r border-slate-800 flex flex-col flex-shrink-0">
+    <aside className="hidden md:flex md:w-64 md:min-h-screen bg-slate-900 border-r border-slate-800 flex-col flex-shrink-0">
       {/* Logo */}
       <div className="px-5 py-6 border-b border-slate-800">
         <div className="flex items-center gap-3">

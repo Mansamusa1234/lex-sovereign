@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Sidebar from '@/components/Sidebar'
+import MobileNav from '@/components/MobileNav'
 import { BookOpen, Plus, Search, Trash2, Loader2, X } from 'lucide-react'
 import clsx from 'clsx'
 import type { Knowledge, KnowledgeCategory } from '@/lib/types'
@@ -76,8 +77,9 @@ export default function KnowledgePage() {
   return (
     <div className="flex min-h-screen">
       <Sidebar />
+      <MobileNav />
       <main className="flex-1 overflow-auto">
-        <div className="max-w-5xl mx-auto px-6 py-8 space-y-6">
+        <div className="max-w-5xl mx-auto px-4 md:px-6 py-6 pb-24 md:pb-8 space-y-6">
           <div className="flex items-start justify-between">
             <div>
               <h1 className="text-2xl font-bold text-white">Knowledge Base</h1>

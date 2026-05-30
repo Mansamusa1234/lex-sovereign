@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Sidebar from '@/components/Sidebar'
+import MobileNav from '@/components/MobileNav'
 import AgentAvatar, { PERSONAS } from '@/components/AgentAvatar'
 import { Loader2, CheckCircle, Languages, Palette, Clock, Activity, Globe } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
@@ -239,7 +240,7 @@ export default function AgentsPage() {
       <div className="legal-grid" aria-hidden />
       <Sidebar pendingCount={pendingCount} />
       <main className="flex-1 overflow-auto relative z-10">
-        <div className="max-w-5xl mx-auto px-6 py-8 space-y-8">
+        <div className="max-w-5xl mx-auto px-4 md:px-6 py-6 pb-24 md:pb-8 space-y-8">
 
           {/* Header */}
           <div>

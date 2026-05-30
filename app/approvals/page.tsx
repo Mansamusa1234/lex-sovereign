@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Sidebar from '@/components/Sidebar'
+import MobileNav from '@/components/MobileNav'
 import ApprovalCard from '@/components/ApprovalCard'
 import { Loader2, CheckSquare, Filter } from 'lucide-react'
 import clsx from 'clsx'
@@ -32,8 +33,9 @@ export default function ApprovalsPage() {
   return (
     <div className="flex min-h-screen">
       <Sidebar pendingCount={pendingCount} />
+      <MobileNav />
       <main className="flex-1 overflow-auto">
-        <div className="max-w-4xl mx-auto px-6 py-8 space-y-6">
+        <div className="max-w-4xl mx-auto px-4 md:px-6 py-6 pb-24 md:pb-8 space-y-6">
           <div>
             <h1 className="text-2xl font-bold text-white">Approval Queue</h1>
             <p className="text-slate-400 text-sm mt-1">All AI-drafted replies must be reviewed here before reaching Gmail.</p>

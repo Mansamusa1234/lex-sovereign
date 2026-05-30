@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Sidebar from '@/components/Sidebar'
+import MobileNav from '@/components/MobileNav'
 import NeuralBackground from '@/components/NeuralBackground'
 import { Loader2, Rss, ExternalLink, RefreshCw, Newspaper, Shield, Building2, DollarSign } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
@@ -132,7 +133,7 @@ export default function NewsPage() {
       <div className="legal-grid" aria-hidden />
       <Sidebar pendingCount={pendingCount} />
       <main className="flex-1 overflow-auto relative z-10">
-        <div className="max-w-5xl mx-auto px-6 py-8 space-y-6">
+        <div className="max-w-5xl mx-auto px-4 md:px-6 py-6 pb-24 md:pb-8 space-y-6">
 
           {/* Header */}
           <div className="flex items-start justify-between">
