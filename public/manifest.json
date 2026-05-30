@@ -1,0 +1,49 @@
+{
+  "name": "Lex Sovereign AI Brain",
+  "short_name": "Lex Sovereign",
+  "description": "Legal research and drafting assistant — powered by AI",
+  "start_url": "/dashboard",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#020617",
+  "theme_color": "#f59e0b",
+  "categories": ["legal", "productivity", "business"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Approvals",
+      "short_name": "Approve",
+      "description": "Review pending draft replies",
+      "url": "/approvals",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Emails",
+      "short_name": "Emails",
+      "description": "View and analyze emails",
+      "url": "/emails",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Knowledge Base",
+      "short_name": "Knowledge",
+      "description": "Browse your legal knowledge base",
+      "url": "/knowledge",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
