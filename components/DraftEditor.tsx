@@ -120,7 +120,7 @@ export default function DraftEditor({ approval, onDecision }: Props) {
           disabled={!!loading}
           className="flex-1 flex items-center justify-center gap-2 py-3 bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-slate-950 font-semibold rounded-xl transition-colors text-sm"
         >
-          {loading === 'approve'
+          {loading === 'approved'
             ? <Loader2 className="w-4 h-4 animate-spin" />
             : <CheckCircle className="w-4 h-4" />}
           Approve & Push to Gmail Draft
@@ -130,7 +130,7 @@ export default function DraftEditor({ approval, onDecision }: Props) {
           disabled={!!loading}
           className="flex-1 flex items-center justify-center gap-2 py-3 bg-red-500/10 hover:bg-red-500/20 disabled:opacity-50 text-red-400 font-semibold border border-red-500/30 rounded-xl transition-colors text-sm"
         >
-          {loading === 'reject'
+          {loading === 'rejected'
             ? <Loader2 className="w-4 h-4 animate-spin" />
             : <XCircle className="w-4 h-4" />}
           Reject
