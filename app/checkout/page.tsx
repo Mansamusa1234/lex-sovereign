@@ -182,7 +182,7 @@ function CheckoutInner() {
             <HoloCard
               plan={selectedPlan.name}
               price={selectedPlan.price}
-              features={selectedPlan.features as string[]}
+              features={Array.from(selectedPlan.features)}
               color={color}
             />
 
