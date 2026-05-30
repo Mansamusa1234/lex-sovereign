@@ -1,6 +1,7 @@
 'use client'
 import clsx from 'clsx'
-import { Scale, Cpu, Mail, Check, X, Loader2, ChevronRight } from 'lucide-react'
+import { Check, X, ChevronRight } from 'lucide-react'
+import AgentAvatar, { PERSONAS, type AgentPersona } from './AgentAvatar'
 
 export type PipelineState = 'idle' | 'running' | 'done' | 'error' | 'skipped'
 
@@ -10,34 +11,18 @@ export interface PipelineStates {
   email_drafting: PipelineState
 }
 
-interface AgentNode {
-  key: keyof PipelineStates
-  label: string
-  sublabel: string
-  icon: React.ElementType
-}
-
-const NODES: AgentNode[] = [
-  { key: 'orchestrator',   label: 'Orchestrator',   sublabel: 'Routes & synthesises', icon: Scale },
-  { key: 'legal_research', label: 'Legal Research', sublabel: 'Knowledge base search', icon: Cpu },
-  { key: 'email_drafting', label: 'Email Drafting', sublabel: 'Draft & risk check',   icon: Mail },
+const NODES: Array<{ key: keyof PipelineStates; persona: AgentPersona }> = [
+  { key: 'orchestrator',   persona: 'sovereign' },
+  { key: 'legal_research', persona: 'lex'       },
+  { key: 'email_drafting', persona: 'aria'      },
 ]
 
-const STATE_STYLE: Record<PipelineState, {
-  ring: string; bg: string; text: string; dot: string
-}> = {
-  idle:    { ring: 'ring-slate-700',        bg: 'bg-slate-800',        text: 'text-slate-500',   dot: 'bg-slate-600' },
-  running: { ring: 'ring-amber-500/60',     bg: 'bg-amber-500/10',     text: 'text-amber-300',   dot: 'bg-amber-400' },
-  done:    { ring: 'ring-emerald-500/50',   bg: 'bg-emerald-500/10',   text: 'text-emerald-300', dot: 'bg-emerald-400' },
-  error:   { ring: 'ring-red-500/50',       bg: 'bg-red-500/10',       text: 'text-red-300',     dot: 'bg-red-400' },
-  skipped: { ring: 'ring-slate-700',        bg: 'bg-slate-800/50',     text: 'text-slate-600',   dot: 'bg-slate-700' },
-}
-
-function StateIcon({ state }: { state: PipelineState }) {
-  if (state === 'done')    return <Check className="w-3.5 h-3.5 text-emerald-400" />
-  if (state === 'error')   return <X className="w-3.5 h-3.5 text-red-400" />
-  if (state === 'running') return <Loader2 className="w-3.5 h-3.5 text-amber-400 animate-spin" />
-  return null
+const STATE_LABEL: Record<PipelineState, string> = {
+  idle:    'Standby',
+  running: 'Working…',
+  done:    'Complete',
+  error:   'Error',
+  skipped: 'Skipped',
 }
 
 interface Props {
@@ -50,44 +35,60 @@ export default function AgentPipeline({ states, messages = [] }: Props) {
   if (!anyActive) return null
 
   return (
-    <div className="space-y-3">
-      {/* Pipeline nodes */}
-      <div className="flex items-center gap-2">
+    <div className="space-y-4 animate-[fadeInUp_0.4s_ease-out]">
+      {/* Agent row */}
+      <div className="flex items-center gap-2 justify-center">
         {NODES.map((node, i) => {
-          const state = states[node.key]
-          const style = STATE_STYLE[state]
-          const Icon = node.icon
+          const state   = states[node.key]
+          const persona = PERSONAS[node.persona]
+          const running = state === 'running'
+          const done    = state === 'done'
+          const error   = state === 'error'
+          const idle    = state === 'idle' || state === 'skipped'
 
           return (
-            <div key={node.key} className="flex items-center gap-2 flex-1 min-w-0">
+            <div key={node.key} className="flex items-center gap-2">
               <div className={clsx(
-                'flex-1 min-w-0 rounded-xl border ring-1 p-3 transition-all duration-300',
-                style.bg, style.ring
+                'flex flex-col items-center gap-2 transition-all duration-500',
+                running && 'scale-105',
+                idle && 'opacity-40',
               )}>
-                <div className="flex items-center gap-2.5">
-                  <div className={clsx(
-                    'w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0',
-                    style.bg, 'border', style.ring.replace('ring-', 'border-')
-                  )}>
-                    <Icon className={clsx('w-3.5 h-3.5', style.text)} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className={clsx('text-xs font-semibold truncate', style.text)}>{node.label}</p>
-                    <p className="text-slate-600 text-[10px] truncate">{node.sublabel}</p>
-                  </div>
-                  <StateIcon state={state} />
-                  {state === 'running' && (
-                    <span className={clsx('w-1.5 h-1.5 rounded-full animate-pulse', style.dot)} />
+                {/* Avatar */}
+                <div className="relative">
+                  <AgentAvatar
+                    persona={node.persona}
+                    size={56}
+                    speaking={running}
+                    active={running}
+                  />
+                  {/* State badge */}
+                  {done && (
+                    <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center">
+                      <Check className="w-3 h-3 text-white" />
+                    </div>
                   )}
-                  {state === 'idle' && (
-                    <span className={clsx('w-1.5 h-1.5 rounded-full', style.dot)} />
+                  {error && (
+                    <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-red-500 flex items-center justify-center">
+                      <X className="w-3 h-3 text-white" />
+                    </div>
                   )}
                 </div>
+
+                {/* Name + state */}
+                <div className="text-center">
+                  <p className="text-xs font-bold" style={{ color: idle ? '#64748b' : persona.color }}>
+                    {persona.name}
+                  </p>
+                  <p className="text-[10px] text-slate-600">
+                    {STATE_LABEL[state]}
+                  </p>
+                </div>
               </div>
+
               {i < NODES.length - 1 && (
                 <ChevronRight className={clsx(
-                  'w-4 h-4 flex-shrink-0 transition-colors duration-300',
-                  state === 'done' ? 'text-emerald-400' : 'text-slate-700'
+                  'w-4 h-4 flex-shrink-0 mb-5 transition-colors duration-500',
+                  done ? 'text-emerald-400' : 'text-slate-700'
                 )} />
               )}
             </div>
@@ -95,20 +96,27 @@ export default function AgentPipeline({ states, messages = [] }: Props) {
         })}
       </div>
 
-      {/* Status messages */}
+      {/* Status log */}
       {messages.length > 0 && (
-        <div className="bg-slate-950/60 border border-slate-800 rounded-xl px-4 py-2.5 font-mono">
-          {messages.slice(-3).map((msg, i) => (
-            <div key={i} className={clsx(
-              'text-xs flex items-center gap-2 py-0.5',
-              i === messages.length - 1 || (messages.length > 3 && i === 2)
-                ? 'text-slate-300'
-                : 'text-slate-600'
-            )}>
-              <span className="text-amber-600 select-none">›</span>
-              {msg}
-            </div>
-          ))}
+        <div className="bg-slate-950/60 border border-slate-800/60 rounded-xl px-4 py-3 font-mono backdrop-blur-sm">
+          {messages.slice(-3).map((msg, i) => {
+            const isLatest = i === Math.min(messages.length - 1, 2)
+            return (
+              <div
+                key={i}
+                className={clsx(
+                  'text-xs flex items-center gap-2 py-0.5 transition-opacity duration-500',
+                  isLatest ? 'text-slate-300 opacity-100' : 'text-slate-600 opacity-60'
+                )}
+              >
+                <span className="text-amber-600 select-none">›</span>
+                {msg}
+                {isLatest && (
+                  <span className="inline-block w-1 h-3 bg-amber-400 ml-0.5 align-middle animate-[blinkCursor_1s_ease-in-out_infinite]" />
+                )}
+              </div>
+            )
+          })}
         </div>
       )}
     </div>

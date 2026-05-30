@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#020617"/>
+  <rect width="1200" height="630" fill="url(#grad)" opacity="0.4"/>
+  <defs>
+    <radialGradient id="grad" cx="30%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#020617" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <!-- Logo badge -->
+  <rect x="80" y="80" width="72" height="72" rx="16" fill="#f59e0b"/>
+  <text x="116" y="132" font-family="system-ui" font-size="40" fill="#020617" text-anchor="middle">⚖</text>
+  <!-- Brand -->
+  <text x="176" y="108" font-family="system-ui,sans-serif" font-size="28" fill="#f59e0b" font-weight="700">Lex Sovereign</text>
+  <text x="176" y="138" font-family="system-ui,sans-serif" font-size="18" fill="#94a3b8">AI Brain</text>
+  <!-- Main headline -->
+  <text x="80" y="260" font-family="system-ui,sans-serif" font-size="68" fill="#ffffff" font-weight="800">Know Your Rights.</text>
+  <text x="80" y="345" font-family="system-ui,sans-serif" font-size="68" fill="#f59e0b" font-weight="800">Draft Your Response.</text>
+  <!-- Sub -->
+  <text x="80" y="420" font-family="system-ui,sans-serif" font-size="30" fill="#94a3b8">AI-powered legal research assistant for real people.</text>
+  <text x="80" y="460" font-family="system-ui,sans-serif" font-size="28" fill="#64748b">FDCPA · FCRA · Debt Collection · Consumer Rights</text>
+  <!-- Badges -->
+  <rect x="80" y="510" width="200" height="48" rx="24" fill="#f59e0b" opacity="0.15" stroke="#f59e0b" stroke-width="1"/>
+  <text x="180" y="541" font-family="system-ui,sans-serif" font-size="18" fill="#f59e0b" text-anchor="middle">Not a lawyer</text>
+  <rect x="300" y="510" width="260" height="48" rx="24" fill="#f59e0b" opacity="0.15" stroke="#f59e0b" stroke-width="1"/>
+  <text x="430" y="541" font-family="system-ui,sans-serif" font-size="18" fill="#f59e0b" text-anchor="middle">Human approval required</text>
+  <rect x="580" y="510" width="220" height="48" rx="24" fill="#f59e0b" opacity="0.15" stroke="#f59e0b" stroke-width="1"/>
+  <text x="690" y="541" font-family="system-ui,sans-serif" font-size="18" fill="#f59e0b" text-anchor="middle">26 languages</text>
+</svg>

@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { runOrchestrator } from '@/lib/agents/orchestrator'
 import type { OrchestrationRequest } from '@/lib/types'
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(req: NextRequest) {
   try {
     const body: OrchestrationRequest = await req.json()

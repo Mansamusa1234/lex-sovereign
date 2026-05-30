@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 /* ── Scrollbar ────────────────────────────────────────────────────────────── */
-::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgb(51 65 85); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgb(71 85 105); }
+::-webkit-scrollbar-thumb { background: rgb(51 65 85 / 0.6); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: rgb(100 116 139 / 0.8); }
 
 /* ── Focus ───────────────────────────────────────────────────────────────── */
 *:focus-visible {
@@ -14,21 +14,77 @@
   outline-offset: 2px;
 }
 
-/* ── Skeleton shimmer ────────────────────────────────────────────────────── */
+/* ── Love Motion — breathing glow ────────────────────────────────────────── */
+@keyframes breathe {
+  0%, 100% {
+    box-shadow: 0 0 20px rgb(251 191 36 / 0.15), 0 0 40px rgb(251 191 36 / 0.05);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 40px rgb(251 191 36 / 0.40), 0 0 80px rgb(251 191 36 / 0.15);
+    transform: scale(1.02);
+  }
+}
+
+/* ── Float ───────────────────────────────────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+
+/* ── Agent speaking bars ─────────────────────────────────────────────────── */
+@keyframes speakBar {
+  from { transform: scaleY(0.4); opacity: 0.6; }
+  to   { transform: scaleY(1.6); opacity: 1; }
+}
+
+/* ── Shimmer skeleton ────────────────────────────────────────────────────── */
 @keyframes shimmer {
   0%   { transform: translateX(-100%); }
   100% { transform: translateX(200%); }
 }
 
-/* ── Toast slide-in ──────────────────────────────────────────────────────── */
+/* ── Fade in up ──────────────────────────────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Slide in ────────────────────────────────────────────────────────────── */
 @keyframes slide-in-from-bottom-4 {
   from { transform: translateY(1rem); opacity: 0; }
-  to   { transform: translateY(0);    opacity: 1; }
+  to   { transform: translateY(0); opacity: 1; }
 }
-.animate-in { animation-fill-mode: both; animation-duration: 300ms; }
-.slide-in-from-bottom-4 { animation-name: slide-in-from-bottom-4; }
-.fade-in { animation-name: fade-in; }
 @keyframes fade-in {
   from { opacity: 0; }
   to   { opacity: 1; }
+}
+
+/* ── Pulse ring ──────────────────────────────────────────────────────────── */
+@keyframes pulseRing {
+  0%   { transform: scale(0.95); box-shadow: 0 0 0 0 rgb(251 191 36 / 0.5); }
+  70%  { transform: scale(1);    box-shadow: 0 0 0 12px rgb(251 191 36 / 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgb(251 191 36 / 0); }
+}
+
+/* ── Typewriter cursor blink ─────────────────────────────────────────────── */
+@keyframes blinkCursor {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* ── Toast ───────────────────────────────────────────────────────────────── */
+.animate-in { animation-fill-mode: both; animation-duration: 300ms; }
+.slide-in-from-bottom-4 { animation-name: slide-in-from-bottom-4; }
+.fade-in    { animation-name: fade-in; }
+
+/* ── Particle background (love motion ambient) ───────────────────────────── */
+.ambient-glow {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 80%, rgb(251 191 36 / 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 20%, rgb(96 165 250 / 0.04) 0%, transparent 60%);
 }

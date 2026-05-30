@@ -1,4 +1,3 @@
-
 import { createClient } from '@supabase/supabase-js'
 import type { Agent, AuditEntry } from './types'
 

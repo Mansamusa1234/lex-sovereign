@@ -5,11 +5,13 @@ import StatsCard from '@/components/StatsCard'
 import AgentActivity from '@/components/AgentActivity'
 import ApprovalCard from '@/components/ApprovalCard'
 import AgentPipeline, { type PipelineStates, type PipelineState } from '@/components/AgentPipeline'
+import AgentAvatar, { PERSONAS } from '@/components/AgentAvatar'
+import VoiceControls, { useSpeech } from '@/components/VoiceControls'
 import { StatsSkeleton, ListSkeleton } from '@/components/Skeleton'
 import { useToast } from '@/components/ToastProvider'
 import {
   CheckSquare, BookOpen, FileText, Users, Send,
-  AlertCircle, Sparkles, ChevronRight
+  AlertCircle, Sparkles, ChevronRight, Mic
 } from 'lucide-react'
 import type { AuditEntry, Approval, RiskFlag } from '@/lib/types'
 import clsx from 'clsx'
@@ -24,6 +26,7 @@ type StreamStatus = 'idle' | 'running' | 'done' | 'error'
 
 export default function DashboardPage() {
   const { toast, success, error: toastError, warning } = useToast()
+  const { speak, stop, speaking } = useSpeech()
 
   // Stats
   const [pending,   setPending]   = useState(0)
@@ -206,6 +209,10 @@ export default function DashboardPage() {
         loadActivity()
         break
 
+      case 'token':
+        setStreamedText(prev => prev + event.content)
+        break
+
       case 'error':
         setStreamStatus('error')
         setPipeline(prev => ({
@@ -229,9 +236,11 @@ export default function DashboardPage() {
   const isRunning = streamStatus === 'running'
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen relative">
+      {/* Ambient love-motion glow */}
+      <div className="ambient-glow" aria-hidden />
       <Sidebar pendingCount={pending} />
-      <main className="flex-1 overflow-auto">
+      <main className="flex-1 overflow-auto relative z-10">
         <div className="max-w-6xl mx-auto px-6 py-8 space-y-8">
 
           {/* Header */}
@@ -266,6 +275,23 @@ export default function DashboardPage() {
             </div>
           )}
 
+          {/* Agent trio showcase */}
+          <div className="bg-slate-900/60 rounded-2xl border border-slate-800 p-6">
+            <p className="text-slate-500 text-xs text-center mb-5 uppercase tracking-widest">Your AI Team</p>
+            <div className="flex justify-center gap-8">
+              {(['sovereign', 'lex', 'aria'] as const).map(p => (
+                <div key={p} className="flex flex-col items-center gap-2 animate-[float_4s_ease-in-out_infinite]"
+                  style={{ animationDelay: p === 'lex' ? '1.3s' : p === 'aria' ? '2.6s' : '0s' }}>
+                  <AgentAvatar persona={p} size={64} speaking={false} />
+                  <div className="text-center">
+                    <p className="text-white text-sm font-bold">{PERSONAS[p].name}</p>
+                    <p className="text-slate-500 text-xs">{PERSONAS[p].role}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
           {/* Ask the AI — streaming */}
           <div className="bg-slate-900 rounded-2xl border border-slate-800 overflow-hidden">
             <div className="px-6 pt-6 pb-4 border-b border-slate-800/60">
@@ -274,7 +300,7 @@ export default function DashboardPage() {
                 <h2 className="text-white font-semibold">Ask the AI Brain</h2>
               </div>
               <p className="text-slate-500 text-xs">
-                Research a legal topic, look up a definition, or analyze an email. Responses stream in real-time.
+                Speak or type your question. Sovereign, Lex, and Aria respond in real-time.
               </p>
             </div>
 
@@ -313,9 +339,9 @@ export default function DashboardPage() {
               {/* Streaming response */}
               {(streamedText || streamStatus === 'error') && (
                 <div className="space-y-3">
-                  {/* Agent tags */}
+                  {/* Agent tags + voice */}
                   {agentsUsed.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2 items-center">
                       {agentsUsed.map(a => (
                         <span key={a} className="text-xs bg-slate-800 text-slate-400 px-2.5 py-1 rounded-full border border-slate-700">
                           {a}
@@ -326,6 +352,9 @@ export default function DashboardPage() {
                           <AlertCircle className="w-3 h-3" />
                           {riskFlags.length} risk flag{riskFlags.length !== 1 ? 's' : ''}
                         </span>
+                      )}
+                      {streamStatus === 'done' && streamedText && (
+                        <VoiceControls text={streamedText} onTranscript={t => setQuery(t)} />
                       )}
                     </div>
                   )}

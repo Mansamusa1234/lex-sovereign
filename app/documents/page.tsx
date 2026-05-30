@@ -5,7 +5,7 @@ import { FileText, Upload, Loader2, File, Eye, X } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import clsx from 'clsx'
 import type { Document } from '@/lib/types'
-import { supabase } from '@/lib/supabase'
+import { supabaseClient as supabase } from '@/lib/supabase-client'
 
 export default function DocumentsPage() {
   const [docs, setDocs] = useState<Document[]>([])
