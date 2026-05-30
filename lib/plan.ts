@@ -34,6 +34,6 @@ features: [
 'Dedicated support',
 ],
 },
-} as const
+} 
 
 export type PlanKey = keyof typeof PLANS
