@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation'
 import clsx from 'clsx'
 import {
   LayoutDashboard, CheckSquare, Mail, FileText, BookOpen,
-  ClipboardList, Scale, ChevronRight, Settings, Bot
+  ClipboardList, Scale, ChevronRight, Settings, Bot, Rss
 } from 'lucide-react'
 
 const nav = [
@@ -12,7 +12,9 @@ const nav = [
   { href: '/approvals', label: 'Approvals',      icon: CheckSquare, badge: true },
   { href: '/emails',    label: 'Emails',          icon: Mail },
   { href: '/documents', label: 'Documents',       icon: FileText },
-  { href: '/knowledge', label: 'Knowledge Base',  icon: BookOpen },
+  { href: '/knowledge', label: 'Law Library',     icon: BookOpen },
+  { href: '/news',      label: 'Legal News',       icon: Rss },
+  { href: '/rights',    label: 'Know Your Rights', icon: Scale },
   { href: '/agents',    label: 'Agents',           icon: Bot },
   { href: '/audit',     label: 'Audit Log',        icon: ClipboardList },
 ]

@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080">
+  <rect width="1080" height="1080" fill="#020617"/>
+  <defs>
+    <radialGradient id="orb1" cx="20%" cy="20%" r="50%">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#020617" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orb2" cx="80%" cy="80%" r="50%">
+      <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#020617" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="goldText" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="50%" stop-color="#fcd34d"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1080" fill="url(#orb1)"/>
+  <rect width="1080" height="1080" fill="url(#orb2)"/>
+  <!-- Grid -->
+  <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+    <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#f59e0b" stroke-width="0.4" opacity="0.08"/>
+  </pattern>
+  <rect width="1080" height="1080" fill="url(#grid)"/>
+  <!-- Top badge -->
+  <rect x="340" y="80" width="400" height="50" rx="25" fill="#f59e0b" fill-opacity="0.1" stroke="#f59e0b" stroke-width="1" stroke-opacity="0.3"/>
+  <text x="540" y="112" font-family="system-ui,sans-serif" font-size="18" fill="#f59e0b" text-anchor="middle" font-weight="600" letter-spacing="3">OPEN SOURCE · FREE TO START</text>
+  <!-- Logo seal -->
+  <circle cx="540" cy="280" r="100" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.2"/>
+  <circle cx="540" cy="280" r="85" fill="#f59e0b" fill-opacity="0.08"/>
+  <text x="540" y="300" font-family="system-ui,sans-serif" font-size="80" text-anchor="middle">⚖</text>
+  <!-- Main headline -->
+  <text x="540" y="450" font-family="system-ui,sans-serif" font-size="90" fill="url(#goldText)" font-weight="900" text-anchor="middle">KNOW YOUR</text>
+  <text x="540" y="550" font-family="system-ui,sans-serif" font-size="90" fill="white" font-weight="900" text-anchor="middle">RIGHTS.</text>
+  <!-- Subheadline -->
+  <text x="540" y="630" font-family="system-ui,sans-serif" font-size="36" fill="#94a3b8" text-anchor="middle">AI Legal Research · Not a Lawyer</text>
+  <!-- Law areas -->
+  <text x="540" y="700" font-family="system-ui,sans-serif" font-size="24" fill="#f59e0b" text-anchor="middle" opacity="0.7">FDCPA · FCRA · UCC 1-308 · Due Process · PACE Act</text>
+  <!-- Divider -->
+  <line x1="200" y1="740" x2="880" y2="740" stroke="#f59e0b" stroke-width="0.5" opacity="0.3"/>
+  <!-- Features -->
+  <text x="180" y="800" font-family="system-ui,sans-serif" font-size="22" fill="#64748b">⚡ 3 AI Agents</text>
+  <text x="380" y="800" font-family="system-ui,sans-serif" font-size="22" fill="#64748b">📋 30+ Laws</text>
+  <text x="560" y="800" font-family="system-ui,sans-serif" font-size="22" fill="#64748b">🌍 26 Languages</text>
+  <text x="750" y="800" font-family="system-ui,sans-serif" font-size="22" fill="#64748b">✓ Human Approval</text>
+  <!-- CTA Button -->
+  <rect x="290" y="850" width="500" height="80" rx="20" fill="#f59e0b"/>
+  <text x="540" y="900" font-family="system-ui,sans-serif" font-size="32" fill="#020617" font-weight="900" text-anchor="middle">START FREE TODAY →</text>
+  <!-- URL -->
+  <text x="540" y="990" font-family="monospace,sans-serif" font-size="20" fill="#334155" text-anchor="middle">lex-sovereign-f6m4.vercel.app</text>
+  <!-- Border -->
+  <rect width="1080" height="1080" fill="none" stroke="#f59e0b" stroke-width="2" stroke-opacity="0.15"/>
+</svg>

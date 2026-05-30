@@ -11,6 +11,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/approvals`,   lastModified: new Date(), changeFrequency: 'daily',   priority: 0.7 },
     { url: `${BASE}/documents`,   lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.7 },
     { url: `${BASE}/agents`,      lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
-    { url: `${BASE}/setup`,       lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
+    { url: `${BASE}/rights`,      lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.9 },
+  { url: `${BASE}/pricing`,     lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+  { url: `${BASE}/setup`,       lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
   ]
 }

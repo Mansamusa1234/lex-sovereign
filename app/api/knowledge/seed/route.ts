@@ -2,244 +2,612 @@ import { NextResponse } from 'next/server'
 import { supabaseAdmin, logAudit } from '@/lib/supabase'
 import { embed } from '@/lib/openai'
 
-const STARTER_ENTRIES = [
-  {
-    title: 'FDCPA Section 809 — Debt Validation Rights',
-    category: 'statute',
-    source: '15 U.S.C. § 1692g',
-    tags: ['fdcpa', 'debt', 'validation', 'consumer rights'],
-    content: `Within five days after the initial communication with a consumer in connection with the collection of any debt, a debt collector shall, unless the following information is contained in the initial communication or the consumer has paid the debt, send the consumer a written notice containing:
-(1) The amount of the debt;
-(2) The name of the creditor to whom the debt is owed;
-(3) A statement that unless the consumer, within thirty days after receipt of the notice, disputes the validity of the debt, the debt will be assumed to be valid by the debt collector;
-(4) A statement that if the consumer notifies the debt collector in writing within the thirty-day period that the debt is disputed, the debt collector will obtain verification of the debt and mail a copy to the consumer;
-(5) A statement that, upon the consumer's written request within the thirty-day period, the debt collector will provide the consumer with the name and address of the original creditor, if different from the current creditor.
+const LIBRARY: Array<{
+  title: string
+  category: 'statute' | 'case_law' | 'definition' | 'template' | 'strategy' | 'outcome'
+  source: string
+  tags: string[]
+  content: string
+}> = [
 
-If the consumer notifies the debt collector in writing within the 30-day period that the debt is disputed, the debt collector must CEASE COLLECTION ACTIVITY until verification is mailed.`,
+  // ── UCC — Uniform Commercial Code ──────────────────────────────────────
+  {
+    title: 'UCC 1-308 — Performance or Acceptance Under Reservation of Rights',
+    category: 'statute', source: 'UCC § 1-308', tags: ['ucc','reservation of rights','without prejudice'],
+    content: `A party that with explicit reservation of rights performs or promises performance or assents to performance in a manner demanded or offered by the other party does not thereby prejudice the rights reserved. Such words as "without prejudice," "under protest," or the like are sufficient.
+
+Subsection (b): This section does not apply to an accord and satisfaction.
+
+Practical application: Writing "All Rights Reserved UCC 1-308" or "Without Prejudice UCC 1-308" on a document or correspondence signals that you are not waiving any rights you may have. Courts recognize this as a valid reservation of rights in commercial transactions.
+
+IMPORTANT: This provision applies to commercial transactions. It does not exempt a person from tax obligations, criminal law, or other non-commercial legal requirements. Courts have consistently rejected misuse of UCC 1-308 as a blanket exemption from all legal obligations.`,
   },
   {
-    title: 'FDCPA Section 805 — Restrictions on Communication',
-    category: 'statute',
-    source: '15 U.S.C. § 1692c',
-    tags: ['fdcpa', 'debt', 'communication', 'harassment'],
-    content: `Without prior consent given directly to the debt collector or the express permission of a court of competent jurisdiction, a debt collector may not communicate with a consumer:
-(1) at any unusual time or place or at a time or place known to be inconvenient to the consumer. In the absence of knowledge of circumstances to the contrary, debt collectors shall assume that convenient times for communicating are after 8 a.m. and before 9 p.m., local time at the consumer's location;
-(2) if the debt collector knows the consumer is represented by an attorney with respect to such debt and has knowledge of, or can readily ascertain, such attorney's name and address — must communicate with the attorney only;
-(3) at the consumer's place of employment if the debt collector knows or has reason to know that the consumer's employer prohibits the consumer from receiving such communication.
+    title: 'UCC 1-103 — Construction of UCC / Supplementary General Principles',
+    category: 'statute', source: 'UCC § 1-103', tags: ['ucc','common law','equity'],
+    content: `(a) The Uniform Commercial Code shall be liberally construed and applied to promote its underlying purposes and policies, which are:
+(1) to simplify, clarify, and modernize the law governing commercial transactions;
+(2) to permit the continued expansion of commercial practices through custom, usage, and agreement of the parties; and
+(3) to make uniform the law among the various jurisdictions.
 
-A consumer may notify the debt collector in writing that they refuse to pay the debt or wish the debt collector to cease further communication. Upon receipt of such notice, the debt collector must cease communication except: to advise the consumer that further efforts are being terminated, to notify about possible remedies, or to notify of an intended remedy.`,
+(b) Unless displaced by the particular provisions of the Uniform Commercial Code, the principles of law and equity, including the law merchant and the law relative to capacity to contract, principal and agent, estoppel, fraud, misrepresentation, duress, coercion, mistake, bankruptcy, and other validating or invalidating cause supplement its provisions.
+
+Significance: Common law and equity principles apply to all UCC matters unless specifically overridden by UCC provisions.`,
   },
   {
-    title: 'FDCPA Section 807 — False or Misleading Representations Prohibited',
-    category: 'statute',
-    source: '15 U.S.C. § 1692e',
-    tags: ['fdcpa', 'debt', 'misrepresentation', 'false claims'],
-    content: `A debt collector may not use any false, deceptive, or misleading representation or means in connection with the collection of any debt. Prohibited representations include:
-(1) The false representation of the character, amount, or legal status of any debt;
-(2) Falsely representing themselves as attorneys or government representatives;
-(3) The false representation that the consumer committed a crime;
-(4) Threatening to take action that cannot legally be taken or that is not intended to be taken;
-(5) Using unfair or unconscionable means to collect a debt;
-(6) Failing to disclose in the initial communication that the debt collector is attempting to collect a debt and that any information obtained will be used for that purpose.
+    title: 'UCC 1-201 — General Definitions',
+    category: 'definition', source: 'UCC § 1-201', tags: ['ucc','definitions','commercial'],
+    content: `Key definitions under UCC Article 1:
 
-Penalty: Violation of the FDCPA allows the consumer to sue in federal or state court within one year of the violation for actual damages, up to $1,000 in additional damages, plus attorney's fees and costs.`,
+"Agreement" means the bargain of the parties in fact, as found in their language or inferred from other circumstances, including course of performance, course of dealing, or usage of trade.
+
+"Bill of lading" means a document of title evidencing the receipt of goods for shipment.
+
+"Buyer in ordinary course of business" means a person that buys goods in good faith, without knowledge that the sale violates the rights of another person in the goods, and in the ordinary course from a person in the business of selling goods of that kind.
+
+"Good faith" means honesty in fact and the observance of reasonable commercial standards of fair dealing.
+
+"Holder" means the person in possession of a negotiable instrument that is payable either to bearer or to an identified person that is the person in possession.
+
+"Notice" — a person has notice of a fact if the person: (A) has actual knowledge of it; (B) has received a notice or notification of it; or (C) from all the facts and circumstances known to the person at the time in question, has reason to know that it exists.
+
+"Person" means an individual, corporation, business trust, estate, trust, partnership, limited liability company, association, joint venture, government, governmental subdivision, agency, or instrumentality, public corporation, or any other legal or commercial entity.
+
+"Purchaser" means a person that takes by purchase. "Purchase" means taking by sale, lease, discount, negotiation, mortgage, pledge, lien, security interest, issue or reissue, gift, or any other voluntary transaction creating an interest in property.`,
   },
   {
-    title: 'FCRA Section 609 — Right to Request Credit File Disclosure',
-    category: 'statute',
-    source: '15 U.S.C. § 1681g',
-    tags: ['fcra', 'credit', 'disclosure', 'credit bureau'],
-    content: `Every consumer reporting agency shall, upon request and proper identification of any consumer, clearly and accurately disclose to the consumer:
-(1) All information in the consumer's file at the time of the request;
-(2) The sources of the information;
-(3) Identifying information for each person that has procured a consumer report for employment purposes within 2 years, or for any other purpose within 1 year;
-(4) The dates, original payees, and amounts of any checks drawn on the consumer's checking or savings accounts which are on file.
+    title: 'UCC 3-104 — Negotiable Instrument Definition',
+    category: 'statute', source: 'UCC § 3-104', tags: ['ucc','negotiable instrument','promissory note'],
+    content: `"Negotiable instrument" means an unconditional promise or order to pay a fixed amount of money, with or without interest or other charges described in the promise or order, if it:
+(1) is payable to bearer or to order at the time it is issued or first comes into possession of a holder;
+(2) is payable on demand or at a definite time; and
+(3) does not state any other undertaking or instruction by the person promising or ordering payment to do any act in addition to the payment of money.
 
-Consumers are entitled to one free disclosure per 12-month period. A consumer reporting agency must provide the disclosure within 15 days of receiving a written request. Disputes regarding inaccurate information must be investigated within 30 days.`,
+A promise or order that otherwise qualifies under subsection (a) is not prevented from being a negotiable instrument because it contains an undertaking or power to give, maintain, or protect collateral to secure payment.
+
+CHECK: "Check" means (i) a draft, other than a documentary draft, payable on demand and drawn on a bank or (ii) a cashier's check or teller's check.
+
+NOTE: "Note" means a promise that is not a certificate of deposit.
+
+Significance: Understanding what constitutes a negotiable instrument is critical in debt and credit disputes.`,
   },
   {
-    title: 'Template: Debt Validation Request Letter',
-    category: 'template',
-    source: 'Internal Template',
-    tags: ['template', 'debt', 'validation', 'letter'],
+    title: 'UCC 9-210 — Request for Accounting / Record of What Collateral Secures Obligation',
+    category: 'statute', source: 'UCC § 9-210', tags: ['ucc','secured debt','collateral','accounting'],
+    content: `A debtor or obligor may send to a secured party a record authenticated by the debtor or obligor requesting that the secured party send or make available to the debtor or obligor a record in a form that would be sufficient to release all security interests in the collateral described in the request if no other obligation were secured by the collateral.
+
+A secured party, not later than 14 days after receiving a request under this section, shall send to the debtor or obligor a record that:
+(1) identifies the obligations secured by the collateral;
+(2) identifies the collateral;
+(3) states the aggregate amount of unpaid secured obligations as of a specified date.
+
+A secured party that fails without reasonable excuse to comply with a request is liable for any loss that the debtor or obligor suffers from the noncompliance.
+
+Practical use: Use this to formally request an itemized accounting of any alleged secured debt, collateral details, and chain of ownership from a creditor or debt collector.`,
+  },
+
+  // ── Constitutional Law ─────────────────────────────────────────────────
+  {
+    title: '1st Amendment — Freedom of Speech, Religion, Press, Petition',
+    category: 'statute', source: 'U.S. Constitution, Amendment I', tags: ['constitution','1st amendment','free speech'],
+    content: `"Congress shall make no law respecting an establishment of religion, or prohibiting the free exercise thereof; or abridging the freedom of speech, or of the press; or the right of the people peaceably to assemble, and to petition the Government for a redress of grievances."
+
+Key protections:
+1. Freedom of religion (Establishment Clause + Free Exercise Clause)
+2. Freedom of speech — protects most speech from government censorship
+3. Freedom of the press
+4. Freedom of peaceful assembly
+5. Right to petition the government
+
+Limitations: The 1st Amendment does not protect: incitement to imminent lawless action, true threats, fraud, perjury, defamation, obscenity, or speech that is "integral to criminal conduct."
+
+Important: The 1st Amendment restricts GOVERNMENT action, not private individuals or companies.`,
+  },
+  {
+    title: '4th Amendment — Right Against Unreasonable Search and Seizure',
+    category: 'statute', source: 'U.S. Constitution, Amendment IV', tags: ['constitution','4th amendment','search','seizure','warrant'],
+    content: `"The right of the people to be secure in their persons, houses, papers, and effects, against unreasonable searches and seizures, shall not be violated, and no Warrants shall issue, but upon probable cause, supported by Oath or affirmation, and particularly describing the place to be searched, and the persons or things to be seized."
+
+Key principles:
+1. Government must generally have a warrant supported by probable cause before searching
+2. Warrant must specifically describe what will be searched and seized
+3. Warrantless searches are presumptively unreasonable
+
+Exceptions to warrant requirement:
+- Consent searches
+- Exigent circumstances (emergencies)
+- Search incident to lawful arrest
+- Plain view doctrine
+- Terry stop (reasonable suspicion, not probable cause, for brief detentions)
+- Vehicle exception (probable cause but no warrant needed)
+- Inventory searches
+
+Remedy for violation: Evidence obtained in violation of the 4th Amendment may be excluded at trial (Exclusionary Rule — Mapp v. Ohio, 367 U.S. 643).`,
+  },
+  {
+    title: '5th Amendment — Grand Jury, Double Jeopardy, Self-Incrimination, Due Process, Takings',
+    category: 'statute', source: 'U.S. Constitution, Amendment V', tags: ['constitution','5th amendment','due process','self-incrimination'],
+    content: `"No person shall be held to answer for a capital, or otherwise infamous crime, unless on a presentment or indictment of a Grand Jury... nor shall any person be subject for the same offence to be twice put in jeopardy of life or limb; nor shall be compelled in any criminal case to be a witness against himself, nor be deprived of life, liberty, or property, without due process of law; nor shall private property be taken for public use, without just compensation."
+
+Five distinct rights:
+1. GRAND JURY: Serious federal crimes require grand jury indictment
+2. DOUBLE JEOPARDY: Cannot be tried twice for same offense
+3. SELF-INCRIMINATION: Right to remain silent; cannot be compelled to testify against yourself (applies in civil AND criminal proceedings)
+4. DUE PROCESS: Government cannot deprive of life, liberty, or property without fair legal process
+5. TAKINGS CLAUSE: Government must pay fair market value when taking private property
+
+"Pleading the 5th": You can invoke your right to remain silent in any legal proceeding — civil or criminal — when your answer might tend to incriminate you in a criminal case.`,
+  },
+  {
+    title: '6th Amendment — Right to Speedy Trial, Jury, Counsel',
+    category: 'statute', source: 'U.S. Constitution, Amendment VI', tags: ['constitution','6th amendment','right to counsel','trial'],
+    content: `"In all criminal prosecutions, the accused shall enjoy the right to a speedy and public trial, by an impartial jury of the State and district wherein the crime shall have been committed... to be informed of the nature and cause of the accusation; to be confronted with the witnesses against him; to have compulsory process for obtaining witnesses in his favor, and to have the Assistance of Counsel for his defence."
+
+Key rights:
+1. SPEEDY TRIAL: Criminal cases must proceed without unreasonable delay
+2. PUBLIC TRIAL: Conducted in open court (some exceptions)
+3. IMPARTIAL JURY: Jury of peers, free from bias
+4. INFORMED OF CHARGES: Must be told specifically what you are accused of
+5. CONFRONTATION: Right to cross-examine witnesses (Confrontation Clause)
+6. COMPULSORY PROCESS: Can compel witnesses to testify in your defense
+7. RIGHT TO COUNSEL: Guaranteed legal representation in criminal cases (Gideon v. Wainwright, 372 U.S. 335)
+
+Right to counsel attaches: At the initiation of formal adversarial proceedings (indictment, information, arraignment).`,
+  },
+  {
+    title: '14th Amendment — Equal Protection and Due Process (States)',
+    category: 'statute', source: 'U.S. Constitution, Amendment XIV', tags: ['constitution','14th amendment','equal protection','due process'],
+    content: `Section 1: "All persons born or naturalized in the United States, and subject to the jurisdiction thereof, are citizens of the United States and of the State wherein they reside. No State shall make or enforce any law which shall abridge the privileges or immunities of citizens of the United States; nor shall any State deprive any person of life, liberty, or property, without due process of law; nor deny to any person within its jurisdiction the equal protection of the laws."
+
+Key provisions:
+1. CITIZENSHIP CLAUSE: Birthright citizenship
+2. PRIVILEGES OR IMMUNITIES: States cannot abridge fundamental rights
+3. DUE PROCESS CLAUSE (applies to states): Incorporates most Bill of Rights protections against state action
+4. EQUAL PROTECTION: Laws must treat similarly situated people equally
+
+Levels of scrutiny:
+- STRICT SCRUTINY (race, national origin, fundamental rights): Government must have compelling interest, narrowly tailored law
+- INTERMEDIATE SCRUTINY (sex/gender): Important government interest, substantially related
+- RATIONAL BASIS (most other classifications): Legitimate government interest, rationally related
+
+Substantive due process: Protects fundamental rights even if government follows proper procedures.`,
+  },
+
+  // ── Procedural Law ─────────────────────────────────────────────────────
+  {
+    title: 'FRCP Rule 12 — Defenses and Objections',
+    category: 'statute', source: 'Federal Rules of Civil Procedure, Rule 12', tags: ['frcp','procedure','motion to dismiss','defenses'],
+    content: `Rule 12(b) — How to Present Defenses: A party may assert the following defenses by motion:
+(1) lack of subject-matter jurisdiction
+(2) lack of personal jurisdiction
+(3) improper venue
+(4) insufficient process
+(5) insufficient service of process
+(6) failure to state a claim upon which relief can be granted
+(7) failure to join a party under Rule 19
+
+Rule 12(b)(6) Motion to Dismiss: Most commonly used defense — argues that even if everything the plaintiff claims is true, there is no legal basis for the lawsuit. The complaint must state a "plausible" claim for relief (Iqbal/Twombly standard).
+
+Rule 12(c) — Motion for Judgment on the Pleadings: Can be filed after pleadings are closed.
+
+Rule 12(d) — Matters Outside the Pleadings: If outside matters are presented on a Rule 12(b)(6) motion, it is treated as a motion for summary judgment.
+
+WAIVER: Rule 12(h) — defenses of lack of personal jurisdiction, improper venue, insufficient process, and insufficient service of process are WAIVED if not raised in the first responsive pleading or a Rule 12 motion.`,
+  },
+  {
+    title: 'FRCP Rule 56 — Summary Judgment',
+    category: 'statute', source: 'Federal Rules of Civil Procedure, Rule 56', tags: ['frcp','summary judgment','procedure'],
+    content: `Rule 56(a) — Motion for Summary Judgment: A party may move for summary judgment, identifying each claim or defense — or the part of each claim or defense — on which summary judgment is sought. The court shall grant summary judgment if the movant shows that there is no genuine dispute as to any material fact and the movant is entitled to judgment as a matter of law.
+
+KEY STANDARD: "No genuine dispute as to any material fact."
+- A fact is "material" if it could affect the outcome
+- A dispute is "genuine" if a reasonable jury could find for the non-moving party
+
+Burden: The moving party has the initial burden of showing no genuine issue. Then the burden shifts to the non-moving party to show specific facts demonstrating a genuine issue for trial.
+
+Time to file: Unless a different time is set by local rule or the court orders otherwise, a party may file a motion for summary judgment at any time until 30 days after the close of all discovery.
+
+The court must view evidence in the light most favorable to the non-moving party.`,
+  },
+  {
+    title: 'Standing — Constitutional Requirement to Sue',
+    category: 'definition', source: 'Article III, U.S. Constitution / Lujan v. Defenders of Wildlife', tags: ['standing','jurisdiction','procedure','constitutional'],
+    content: `Constitutional standing is the threshold requirement that a plaintiff must satisfy to bring a case in federal court under Article III.
+
+Three requirements (Lujan v. Defenders of Wildlife, 504 U.S. 555):
+1. INJURY IN FACT: A concrete and particularized injury, actual or imminent (not speculative)
+2. CAUSATION (TRACEABILITY): The injury must be fairly traceable to the defendant's challenged conduct
+3. REDRESSABILITY: It must be likely that a favorable court decision will redress the injury
+
+Practical importance: If a defendant challenges standing, the court may dismiss the case for lack of subject-matter jurisdiction even if the underlying claim is meritorious.
+
+Also important:
+- A party must have standing at each stage of litigation
+- Congress cannot grant standing by statute unless constitutional requirements are met
+- Organizational standing: Organizations can sue on behalf of members if members would have standing individually`,
+  },
+  {
+    title: 'Personal Jurisdiction — Court Power Over Defendants',
+    category: 'definition', source: 'Due Process / International Shoe Co. v. Washington', tags: ['jurisdiction','procedure','due process'],
+    content: `Personal jurisdiction = a court's power over a specific defendant. Without it, any judgment is void.
+
+Types:
+1. GENERAL JURISDICTION: Defendant is essentially "at home" in the state (e.g., incorporated there, principal place of business). Goodyear v. Brown (2011), Daimler v. Bauman (2014)
+
+2. SPECIFIC JURISDICTION: Defendant has minimum contacts with the forum state related to the lawsuit. International Shoe Co. v. Washington, 326 U.S. 310 (1945)
+
+International Shoe Test: Due process requires that defendant have "minimum contacts with [the forum state] such that the maintenance of the suit does not offend 'traditional notions of fair play and substantial justice.'"
+
+Factors for specific jurisdiction:
+- Defendant purposefully availed itself of forum state
+- Claim arises from or relates to those contacts
+- Exercise of jurisdiction is reasonable (fair play and substantial justice)
+
+How to challenge: File a Rule 12(b)(2) motion to dismiss for lack of personal jurisdiction — and do it BEFORE answering the complaint, or the defense is waived.`,
+  },
+  {
+    title: 'Statute of Limitations — Time Limits to File Suit',
+    category: 'statute', source: 'State and Federal Law (varies)', tags: ['statute of limitations','time','procedure','debt'],
+    content: `A statute of limitations is a law that sets the maximum time after an event within which legal proceedings may be initiated. After the period expires, the claim is "time-barred."
+
+DEBT-RELATED LIMITATIONS (vary by state — examples):
+- Written contracts: 3-10 years (most states 4-6 years)
+- Oral contracts: 2-5 years
+- Open accounts (credit cards): Often 3-6 years
+- Judgments: 5-20 years (varies; judgments are renewable)
+- Federal student loans: No statute of limitations for collection
+- IRS tax assessments: Generally 3 years; 6 years if >25% underreported
+
+Key rules:
+- The clock usually starts when the debt became delinquent (last payment or charge-off date)
+- Making a partial payment MAY restart the clock in some states
+- Verbal acknowledgment of the debt may restart the clock in some states
+- A debt being past the statute of limitations does NOT erase the debt — it only removes the ability to sue in court
+- Debt collectors can still call about time-barred debt (but cannot threaten to sue if they cannot legally do so)
+- Credit reporting period is separate: 7 years from delinquency (FCRA) regardless of SOL
+
+FDCPA note: Suing or threatening to sue on a time-barred debt may violate the FDCPA (Kimber v. Federal Financial Corp.).`,
+  },
+  {
+    title: 'Habeas Corpus — Challenge to Unlawful Detention',
+    category: 'definition', source: 'U.S. Constitution Art. I Sec. 9 / 28 U.S.C. § 2241', tags: ['habeas corpus','detention','constitutional','liberty'],
+    content: `Habeas corpus (Latin: "you shall have the body") is a legal action that requires a person under arrest to be brought before a judge or into court. It is the principal means by which persons held in custody can challenge the legality of their detention.
+
+Constitutional basis: "The Privilege of the Writ of Habeas Corpus shall not be suspended, unless when in Cases of Rebellion or Invasion the public Safety may require it." — U.S. Constitution, Art. I, Sec. 9, Cl. 2
+
+Federal habeas corpus for state prisoners: 28 U.S.C. § 2254 — allows state prisoners to challenge their detention in federal court after exhausting state remedies.
+
+Federal prisoners: 28 U.S.C. § 2255 — federal prisoners challenge their sentence in the sentencing court.
+
+Grounds: Constitutional violations, ineffective assistance of counsel, newly discovered evidence, actual innocence, jurisdictional defects.
+
+AEDPA (Antiterrorism and Effective Death Penalty Act, 1996): Imposed a 1-year statute of limitations on habeas petitions and required "deference" to state court decisions.`,
+  },
+
+  // ── Common Law Definitions ─────────────────────────────────────────────
+  {
+    title: 'Stare Decisis — Precedent in Law',
+    category: 'definition', source: "Black's Law Dictionary / Common Law Doctrine", tags: ['common law','precedent','stare decisis'],
+    content: `Stare decisis (Latin: "to stand by things decided") is the doctrine by which courts are obligated to follow the precedents set in prior decisions.
+
+Two levels:
+1. VERTICAL STARE DECISIS: Lower courts must follow decisions of higher courts within the same jurisdiction (e.g., federal district courts must follow Supreme Court and their Circuit Court of Appeals)
+2. HORIZONTAL STARE DECISIS: Courts generally follow their own prior decisions (but can overrule them)
+
+Binding vs. persuasive precedent:
+- BINDING (mandatory): Must be followed (higher court in same jurisdiction)
+- PERSUASIVE: Courts may consider but are not required to follow (other jurisdictions, lower courts, dissents)
+
+Overruling precedent: Higher courts can overrule prior decisions. The Supreme Court can reverse its own precedents (Dobbs v. Jackson overruled Roe v. Wade; Loper Bright overruled Chevron).
+
+Why it matters: Helps predict how courts will rule and ensures consistent application of law.`,
+  },
+  {
+    title: 'Promissory Estoppel — Enforcing Promises Without a Contract',
+    category: 'definition', source: "Restatement (Second) of Contracts § 90 / Black's Law Dictionary", tags: ['estoppel','contract','promise','common law'],
+    content: `Promissory estoppel is a doctrine that makes a promise enforceable even without consideration (the normal requirement for a contract) when:
+
+Elements (Restatement Second § 90):
+1. The promisor (person making the promise) makes a clear and definite promise
+2. The promisor should reasonably expect the promise to induce action or forbearance by the promisee
+3. The promisee (person receiving the promise) actually relies on the promise to their detriment
+4. Injustice can only be avoided by enforcement of the promise
+
+Remedy: May be limited — courts award what is necessary to prevent injustice (reliance damages), which may be less than full contract damages.
+
+Example: Employer promises employee a pension if they work for 40 years. Employee retires. Employer refuses to pay. Employee may enforce under promissory estoppel even if the promise lacked consideration.
+
+Distinguished from equitable estoppel: Equitable estoppel concerns misrepresentations of existing facts; promissory estoppel concerns promises about future conduct.`,
+  },
+  {
+    title: 'Accord and Satisfaction — Settling a Disputed Debt',
+    category: 'definition', source: "UCC § 3-311 / Common Law", tags: ['accord','satisfaction','debt settlement','common law'],
+    content: `Accord and satisfaction is a method of discharging a disputed contractual claim in which the parties agree to give and accept a different payment or performance as full satisfaction of the original obligation.
+
+Elements:
+1. A bona fide dispute about the debt or obligation
+2. An offer by the debtor to settle the dispute (the "accord")
+3. Acceptance by the creditor of the settlement (the "satisfaction")
+4. Actual performance of the agreed settlement
+
+UCC 3-311 (checks): If a person against whom a claim is asserted proves that the person tendered an instrument to the claimant as full satisfaction of the claim, that the amount of the claim was unliquidated (uncertain) or subject to a bona fide dispute, and that the claimant obtained payment — the claim is discharged.
+
+Practical use: If you write "PAID IN FULL" or "FULL AND FINAL SETTLEMENT" on a check and the creditor cashes it, this may constitute accord and satisfaction of the disputed amount.
+
+WARNING: Creditors sometimes try to avoid this by crossing out the "full payment" notation. Consult state law — many states have specific rules.`,
+  },
+  {
+    title: 'Res Judicata — Claim Preclusion',
+    category: 'definition', source: "Common Law / Black's Law Dictionary", tags: ['res judicata','preclusion','finality','procedure'],
+    content: `Res judicata (Latin: "a matter judged") is the principle that a final judgment by a court of competent jurisdiction is conclusive upon the parties in any subsequent litigation involving the same cause of action.
+
+Elements:
+1. Final judgment on the merits by a court of competent jurisdiction
+2. Same parties (or those in privity with them)
+3. Same cause of action (same claim or claims that could have been brought)
+
+Effect: Bars re-litigation of all claims that were raised OR COULD HAVE BEEN RAISED in the prior action.
+
+Distinguished from collateral estoppel (issue preclusion):
+- Res judicata = same claim, bars entire lawsuit
+- Collateral estoppel = same issue, bars re-litigation of specific issues actually decided
+
+Why it matters: If you have a judgment against a debt collector or creditor, they generally cannot sue you again on the same underlying claim. Conversely, if you lose a judgment, you cannot bring the same claims again in a different court.`,
+  },
+
+  // ── FDCPA Expanded ─────────────────────────────────────────────────────
+  {
+    title: 'FDCPA Section 812 — Unfair Practices Prohibited',
+    category: 'statute', source: '15 U.S.C. § 1692f', tags: ['fdcpa','unfair practices','debt collector'],
+    content: `A debt collector may not use unfair or unconscionable means to collect or attempt to collect any debt. Without limiting the general application of the foregoing, the following conduct is a violation:
+
+(1) Collection of any amount (including any interest, fee, charge, or expense) unless such amount is expressly authorized by the agreement creating the debt or permitted by law.
+
+(2) Acceptance by a debt collector from any person of a check or other payment instrument postdated by more than five days unless such person is notified of intent to deposit the check between 3 and 10 business days before the deposit.
+
+(3) Soliciting any postdated check for the purpose of threatening or instituting criminal prosecution.
+
+(4) Depositing or threatening to deposit any postdated check prior to the date of such check.
+
+(5) Causing charges to be made to any person for communications by concealing the true purpose of the communication.
+
+(6) Taking or threatening to take any nonjudicial action to effect dispossession of property when (A) there is no present right to possession; (B) there is no present intention to take possession; or (C) the property is exempt from such dispossession.
+
+(7) Communicating with a consumer regarding a debt by post card.
+
+(8) Using any language or symbol on any envelope or in the contents of any communication that indicates the communication relates to the collection of a debt.`,
+  },
+  {
+    title: 'FDCPA Section 808 — Harassment or Abuse Prohibited',
+    category: 'statute', source: '15 U.S.C. § 1692d', tags: ['fdcpa','harassment','abuse','debt collector'],
+    content: `A debt collector may not engage in any conduct the natural consequence of which is to harass, oppress, or abuse any person in connection with the collection of a debt. Without limiting the general application of the foregoing, the following conduct is a violation:
+
+(1) The use or threat of use of violence or other criminal means to harm the physical person, reputation, or property of any person.
+
+(2) The use of obscene or profane language or language the natural consequence of which is to abuse the hearer or reader.
+
+(3) The publication of a list of consumers who allegedly refuse to pay debts, except to a consumer reporting agency.
+
+(4) The advertisement for sale of any debt to coerce payment of the debt.
+
+(5) Causing a telephone to ring or engaging any person in telephone conversation repeatedly or continuously with intent to annoy, abuse, or harass any person at the called number.
+
+(6) Placement of telephone calls without meaningful disclosure of the caller's identity.
+
+YOUR RIGHTS: If a debt collector harasses you, document every contact (date, time, what was said). File complaints with the CFPB (consumerfinance.gov), FTC, and your state Attorney General. You have the right to sue for damages within one year.`,
+  },
+
+  // ── Administrative Law ─────────────────────────────────────────────────
+  {
+    title: 'FOIA — Freedom of Information Act',
+    category: 'statute', source: '5 U.S.C. § 552', tags: ['foia','government','transparency','records'],
+    content: `The Freedom of Information Act (FOIA) gives any person the right to request access to federal agency records or information. The law is based on the presumption that the government and its activities are public business.
+
+HOW TO USE FOIA:
+1. Identify the correct federal agency that has the records
+2. Write a FOIA request letter identifying the records sought as specifically as possible
+3. Send to the agency's FOIA office
+4. Agency must respond within 20 business days (extensions possible)
+5. If denied, you can administratively appeal, then sue in federal district court
+
+Nine exemptions (agencies may withhold):
+(1) National security / classified
+(2) Internal personnel rules and practices
+(3) Information exempted by other statutes
+(4) Trade secrets and confidential commercial information
+(5) Inter-agency or intra-agency memos (deliberative process)
+(6) Personal privacy
+(7) Law enforcement records (under certain conditions)
+(8) Financial institution regulation
+(9) Geological and geophysical information
+
+FEE WAIVERS: You can request fee waivers if disclosure is in the public interest and not for commercial use.
+
+State equivalents: All 50 states have their own public records laws for state and local government records.`,
+  },
+
+  // ── Templates ──────────────────────────────────────────────────────────
+  {
+    title: 'Template: Demand for Verification / Debt Dispute Letter — Advanced',
+    category: 'template', source: 'Internal Template (FDCPA-Based)', tags: ['template','debt','verification','fdcpa','dispute'],
     content: `[YOUR FULL LEGAL NAME]
-[Your Address]
+[Address]
 [City, State, ZIP]
 [Date]
 
-[Debt Collector Name]
-[Debt Collector Address]
+Sent Via: CERTIFIED MAIL — Return Receipt Requested
+Certificate No.: _______________
 
-RE: Account Number [ACCOUNT NUMBER] — NOTICE OF DISPUTE AND REQUEST FOR VALIDATION
+[DEBT COLLECTOR / CREDITOR NAME]
+[Address]
 
-To Whom It May Concern:
+RE: NOTICE OF DISPUTE AND FORMAL REQUEST FOR DEBT VALIDATION
+Alleged Account: [ACCOUNT NUMBER]
+Alleged Balance: $[AMOUNT]
 
-I am writing in response to your [letter/phone call/notice] dated [DATE] regarding the alleged debt referenced above.
+TO WHOM IT MAY CONCERN:
 
-Pursuant to 15 U.S.C. § 1692g of the Fair Debt Collection Practices Act (FDCPA), I hereby formally dispute this debt and request complete validation of the debt. Please provide:
+This letter constitutes formal written notice that I dispute the alleged debt referenced above in its entirety.
 
-1. The original signed agreement creating this alleged debt;
-2. Complete payment history showing how the current balance was calculated;
-3. The name and address of the original creditor;
-4. Proof that your company is licensed to collect debts in [STATE];
-5. The date the alleged debt was charged off;
-6. Chain of title showing all assignments of the alleged debt.
+Pursuant to the Fair Debt Collection Practices Act (15 U.S.C. § 1692g), I hereby demand complete validation and verification of this alleged debt. You are hereby notified that pursuant to 15 U.S.C. § 1692g(b), you must CEASE ALL COLLECTION ACTIVITY until you have provided complete validation.
 
-Please be advised: pursuant to 15 U.S.C. § 1692g(b), you must cease all collection activity until you have provided complete validation of this debt.
+I request the following:
+1. Complete chain of assignment of the alleged debt showing all original and intermediate creditors
+2. Original signed agreement or contract creating the alleged debt
+3. Complete payment history from inception of the account
+4. Proof that your company is licensed to collect debts in [STATE]
+5. Proof that the statute of limitations has not expired
+6. Documentation establishing that you are the current legal owner or authorized agent
+7. Itemization of all fees, interest, and charges added to the principal balance
+8. Name and address of the original creditor if different from current holder
+9. Copy of any judgment if this alleged debt has been reduced to judgment
 
-This is NOT a refusal to pay, but a request for proper validation before any payment is considered.
+All rights reserved, UCC 1-308. Without prejudice.
 
-This letter is being sent via [CERTIFIED MAIL / RETURN RECEIPT REQUESTED].
-
-All future correspondence must be in writing only.
+I am aware of my rights under the FDCPA, FCRA, UCC, and applicable state law. Any further collection activity without proper validation, or any attempt to report this disputed debt to a credit bureau without proper notation that it is disputed, may subject your organization to liability under 15 U.S.C. § 1692k.
 
 Sincerely,
 [YOUR SIGNATURE]
-[YOUR PRINTED NAME]`,
+[PRINTED NAME]
+[Date]`,
   },
   {
-    title: 'Template: Cease and Desist Letter to Debt Collector',
-    category: 'template',
-    source: 'Internal Template',
-    tags: ['template', 'cease and desist', 'debt', 'fdcpa'],
+    title: 'Template: Notice of Conditional Acceptance',
+    category: 'template', source: 'Internal Template (Procedural)', tags: ['template','conditional acceptance','dispute','notice'],
     content: `[YOUR FULL LEGAL NAME]
-[Your Address]
-[City, State, ZIP]
+[Address]
 [Date]
 
-[Debt Collector Name]
-[Debt Collector Address]
+Sent Via: CERTIFIED MAIL — Return Receipt Requested
 
-RE: CEASE AND DESIST — Account [ACCOUNT NUMBER IF KNOWN]
+[OPPOSING PARTY / CREDITOR / COLLECTOR]
+[Address]
 
-To Whom It May Concern:
+RE: NOTICE OF CONDITIONAL ACCEPTANCE OF YOUR CLAIM / OFFER
+Reference: [Account/Case/Reference Number]
 
-Pursuant to my rights under 15 U.S.C. § 1692c(c) of the Fair Debt Collection Practices Act, I hereby demand that you IMMEDIATELY CEASE AND DESIST all communication with me regarding the above-referenced account.
+NOTICE TO PRINCIPAL IS NOTICE TO AGENT. NOTICE TO AGENT IS NOTICE TO PRINCIPAL.
 
-This notice serves as formal written notification that:
-1. I am invoking my right under the FDCPA to have you cease all further communication;
-2. Any further contact by your company may constitute a violation of federal law;
-3. I reserve all rights without prejudice under UCC 1-308.
+Dear [Name or To Whom It May Concern]:
 
-Should you continue to contact me after receiving this notice, I will file complaints with:
-— The Consumer Financial Protection Bureau (CFPB)
-— The Federal Trade Commission (FTC)
-— The [STATE] Attorney General's Office
-— And pursue all available legal remedies under the FDCPA
+I have received your correspondence dated [DATE] making a claim/demand in the amount of $[AMOUNT].
 
-Send all future correspondence in writing only to the address above.
+I am prepared to accept your claim/offer conditionally upon your providing proof of the following:
 
-Without prejudice, UCC 1-308,
+CONDITION 1: Provide the original signed agreement evidencing a lawful binding contract between [your name] and [their entity name], including consideration, offer, and acceptance.
+
+CONDITION 2: Provide a complete and accurate accounting showing how the alleged amount was calculated, including all original principal, interest rates applied, fees charged, and any credits applied.
+
+CONDITION 3: Provide proof that your claim is not time-barred under the applicable statute of limitations.
+
+CONDITION 4: Provide proof of your standing and authority to make this claim, including chain of title if the debt was assigned or sold.
+
+CONDITION 5: Provide the law or lawful regulation that requires me to pay this alleged obligation.
+
+Upon your fulfillment of the above conditions, I will consider your claim. Failure to respond with the requested documentation within [30] days of receipt of this notice will be taken as your agreement that no such documentation exists and that your claim is hereby abandoned.
+
+All rights reserved without prejudice, UCC 1-308.
+
+Respectfully,
 [YOUR SIGNATURE]
-[YOUR PRINTED NAME]
+[PRINTED NAME]`,
+  },
 
-Sent via: Certified Mail — Return Receipt Requested
-Certificate No.: [USPS TRACKING NUMBER]`,
+  // ── Definitions — Black's Law ──────────────────────────────────────────
+  {
+    title: 'In Rem vs. In Personam Jurisdiction',
+    category: 'definition', source: "Black's Law Dictionary / Common Law", tags: ['jurisdiction','in rem','in personam','property'],
+    content: `IN PERSONAM (against the person): Jurisdiction over a specific individual or legal entity. Based on the defendant's presence in, domicile in, or contacts with the forum. A judgment in personam is personally binding on the defendant wherever they are.
+
+IN REM (against the thing): Jurisdiction over property located within the court's territorial jurisdiction, regardless of where the property owner lives. A judgment in rem affects only the property — not the person.
+
+QUASI IN REM: Court exercises jurisdiction over property within its territory, but uses it to adjudicate a personal claim against the property owner. Limited to the value of the property.
+
+Practical importance:
+- Courts must have either in personam OR in rem jurisdiction to issue a valid judgment
+- A default judgment without proper jurisdiction is VOID and can be collaterally attacked at any time
+- Asset seizure cases (forfeiture) typically proceed in rem
+- Debt collection: Collectors must have personal jurisdiction over you to sue you in court
+
+Key case: Shaffer v. Heitner (1977) — Supreme Court held that in rem jurisdiction must also satisfy the minimum contacts test of International Shoe.`,
   },
   {
-    title: 'Definition: Estoppel',
-    category: 'definition',
-    source: "Black's Law Dictionary, 11th Edition",
-    tags: ['definition', 'estoppel', 'equity', "black's law"],
-    content: `Estoppel (noun): A bar that prevents one from asserting a claim or right that contradicts what one has said or done before, or what has been legally established as true.
+    title: 'Laches — Equitable Defense Based on Unreasonable Delay',
+    category: 'definition', source: "Equity / Black's Law Dictionary", tags: ['laches','equity','defense','delay'],
+    content: `Laches is an equitable defense that bars a claim if the plaintiff unreasonably delayed in bringing the claim and that delay prejudiced the defendant.
 
-Types:
-— Equitable Estoppel (Estoppel in Pais): A party who has by statement or conduct caused another to believe a certain state of things to be true, and has induced such party to act upon that belief so as to alter their condition to their detriment, may not deny the truth of that state of affairs.
+Elements:
+1. Plaintiff had knowledge of the defendant's actions or of the facts giving rise to the claim
+2. Plaintiff unreasonably delayed in asserting the claim
+3. The delay caused prejudice to the defendant
 
-— Promissory Estoppel: A promise is enforceable even without consideration if the promisor reasonably should have expected the promise to induce action by the promisee, and the promisee actually relied on the promise to their detriment.
+Different from statute of limitations:
+- Statute of limitations = fixed legal time limit set by statute
+- Laches = equitable doctrine applied by courts at their discretion, especially in equity cases
+- Laches can apply even before the statute runs, or in cases with no statute of limitations
 
-— Judicial Estoppel: A party who has successfully maintained a position in one legal proceeding may not maintain an inconsistent position in a subsequent proceeding.
+Where it applies: Primarily in equity cases (injunctions, specific performance, trusts). Less commonly applied in legal cases (damages).
 
-— Collateral Estoppel (Issue Preclusion): Once a court decides an issue of fact or law necessary to its judgment, that decision prevents the same parties from relitigating the issue in future litigation.
-
-Practical Use: If a creditor or collector has represented something to be true (e.g., a balance, a status, a deadline), and you relied on that representation to your detriment, you may be able to invoke estoppel to prevent them from contradicting that representation.`,
+Example: Creditor knows about a debt for 8 years, then sues. Even if within the statute of limitations, defendant may raise laches if the delay caused them to lose evidence or witnesses.`,
   },
   {
-    title: 'Definition: Void Ab Initio',
-    category: 'definition',
-    source: "Black's Law Dictionary, 11th Edition",
-    tags: ['definition', 'void', 'contract', "black's law"],
-    content: `Void Ab Initio (Latin: "void from the beginning"): A transaction or act that is null and has no legal effect from its inception, as though it never occurred. Distinguished from "voidable," which describes a transaction that may be affirmed or rejected at the option of one of the parties.
+    title: 'Mens Rea — Criminal Intent',
+    category: 'definition', source: "Criminal Law / Black's Law Dictionary", tags: ['mens rea','criminal law','intent','definition'],
+    content: `Mens rea (Latin: "guilty mind") is the mental element of a criminal act — the intent or knowledge of wrongdoing that constitutes part of a crime.
 
-A contract or instrument that is void ab initio cannot be ratified or made valid by subsequent conduct of the parties. Examples of situations that may render an agreement void ab initio include:
-— Fraud in the factum (misrepresentation about the nature of the instrument itself)
-— Lack of legal capacity at the time of signing
-— Illegality of the contract's subject matter
-— Absence of mutual assent
+Four levels under the Model Penal Code (MPC):
+1. PURPOSE (intentionally): Conscious object to engage in the conduct or cause the result
+2. KNOWLEDGE (knowingly): Aware that conduct is of that nature or that circumstances exist; practically certain result will follow
+3. RECKLESSNESS (recklessly): Consciously disregards a substantial and unjustifiable risk
+4. NEGLIGENCE (negligently): Should have been aware of a substantial and unjustifiable risk (objective standard)
 
-Practical Use: If a debt instrument was created through fraud, misrepresentation, or without lawful authority, it may be argued to be void ab initio and unenforceable.`,
+STRICT LIABILITY crimes: No mens rea required (usually regulatory/minor offenses, traffic violations, statutory rape).
+
+Key principle: Criminal law generally requires both a guilty act (actus reus) AND a guilty mind (mens rea) for conviction. No crime without both.
+
+Defenses that negate mens rea:
+- Mistake of fact (if genuine, may negate intent)
+- Intoxication (involuntary intoxication may be a complete defense)
+- Insanity (M'Naghten test, MPC substantial capacity test)
+- Diminished capacity (partial defense in some jurisdictions)`,
   },
   {
-    title: 'Definition: Surety and Suretyship',
-    category: 'definition',
-    source: "Black's Law Dictionary, 11th Edition",
-    tags: ['definition', 'surety', 'guarantee', "black's law"],
-    content: `Surety (noun): A person who is primarily liable for the payment of another's debt or the performance of another's obligation. Distinguished from a guarantor, who is only secondarily liable.
+    title: 'Pro Se — Self-Representation in Court',
+    category: 'definition', source: "Common Law / 28 U.S.C. § 1654", tags: ['pro se','self-representation','court','rights'],
+    content: `Pro se (Latin: "for oneself") refers to a person who represents themselves in a legal proceeding without the assistance of an attorney.
 
-Suretyship: A contractual relationship in which one party (the surety) agrees to be responsible for the debt, default, or failure in duty of a second party (the principal).
+Legal basis: 28 U.S.C. § 1654 — "In all courts of the United States the parties may plead and conduct their own cases personally or by counsel."
 
-Key distinctions:
-— A surety's obligation is co-extensive with the principal's obligation
-— A surety can be held liable without first pursuing the principal
-— A surety has rights of subrogation against the principal after payment
+Supreme Court recognition: Faretta v. California (1975) — the Sixth Amendment guarantees the right to self-representation in criminal cases.
 
-Practical relevance: Understanding whether you are a principal or a surety in any financial agreement is important for determining your actual legal obligations and defenses.`,
-  },
-  {
-    title: 'UCC 1-308 — Performance or Acceptance Under Reservation of Rights',
-    category: 'statute',
-    source: 'Uniform Commercial Code § 1-308',
-    tags: ['ucc', 'reservation of rights', 'commercial law'],
-    content: `A party that with explicit reservation of rights performs or promises performance or assents to performance in a manner demanded or offered by the other party does not thereby prejudice the rights reserved. Such words as "without prejudice," "under protest," or the like are sufficient.
+Practical considerations for pro se litigants:
+- Courts generally hold pro se filings to a less stringent standard than attorney-drafted filings (Haines v. Kerner)
+- However, pro se litigants must still comply with procedural rules
+- Courts cannot give legal advice to pro se litigants
+- Some courts have pro se clinics or legal aid resources
 
-Effect: If you sign or accept a document "under protest" or "without prejudice, UCC 1-308," you are signaling that your compliance does not constitute agreement with the other party's characterization of the situation, and you preserve any legal defenses or objections.
+Resources:
+- PACER (pacer.gov) — federal court records
+- Court's self-help center (if available)
+- Legal aid organizations (income-based)
+- Law school clinics
 
-Important note: This section does NOT operate as a blanket protection against all legal obligations. It is a tool within commercial transactions to preserve the right to dispute while complying. Misuse of UCC 1-308 in consumer contexts (e.g., refusing to pay taxes) has been consistently rejected by courts. Always consult an attorney about the proper application of this provision.`,
-  },
-  {
-    title: '5th Amendment — Right Against Self-Incrimination',
-    category: 'statute',
-    source: 'U.S. Constitution, Amendment V',
-    tags: ['constitution', '5th amendment', 'self-incrimination', 'rights'],
-    content: `"No person shall be held to answer for a capital, or otherwise infamous crime, unless on a presentment or indictment of a Grand Jury, except in cases arising in the land or naval forces, or in the Militia, when in actual service in time of War or public danger; nor shall any person be subject for the same offence to be twice put in jeopardy of life or limb; nor shall be compelled in any criminal case to be a witness against himself, nor be deprived of life, liberty, or property, without due process of law; nor shall private property be taken for public use, without just compensation."
-
-Key rights:
-1. Grand jury indictment for serious federal crimes
-2. Protection against double jeopardy
-3. Right to remain silent / not self-incriminate
-4. Due process before deprivation of life, liberty, or property
-5. Just compensation for government takings (Takings Clause)
-
-The right against self-incrimination applies in any proceeding — civil or criminal — where answers might tend to incriminate in a criminal proceeding.`,
-  },
-  {
-    title: 'FDCPA Section 813 — Civil Liability',
-    category: 'statute',
-    source: '15 U.S.C. § 1692k',
-    tags: ['fdcpa', 'liability', 'damages', 'lawsuit'],
-    content: `Except as otherwise provided by this section, any debt collector who fails to comply with any provision of the FDCPA with respect to any person is liable to such person in an amount equal to the sum of:
-
-(1) Any actual damage sustained by such person as a result of such failure;
-(2)(A) In the case of any action by an individual, such additional damages as the court may allow, but not exceeding $1,000;
-(2)(B) In the case of a class action, such amount as the court may allow for all other class members, without regard to minimum individual recovery, not to exceed the lesser of $500,000 or 1 per centum of the net worth of the debt collector;
-(3) In the case of any successful action to enforce the foregoing liability, the costs of the action, together with a reasonable attorney's fee as determined by the court.
-
-In determining the amount of liability in any action, the court shall consider, among other relevant factors: the frequency and persistence of noncompliance, the nature of such noncompliance, and the extent to which such noncompliance was intentional.
-
-Statute of limitations: Actions must be brought within ONE YEAR from the date on which the violation occurs.`,
+Tips:
+- Read the court's local rules carefully
+- File documents on time
+- Serve all parties properly
+- Keep copies of everything
+- Be respectful and professional in all court filings`,
   },
 ]
 
 export async function POST() {
-  const existing = await supabaseAdmin
-    .from('knowledge')
-    .select('title')
-
+  const existing = await supabaseAdmin.from('knowledge').select('title')
   const existingTitles = new Set((existing.data ?? []).map((r: any) => r.title))
-  const toInsert = STARTER_ENTRIES.filter(e => !existingTitles.has(e.title))
+  const toInsert = LIBRARY.filter(e => !existingTitles.has(e.title))
 
   if (toInsert.length === 0) {
-    return NextResponse.json({ message: 'All starter entries already exist.', added: 0 })
+    return NextResponse.json({ message: 'All library entries already exist.', added: 0 })
   }
 
   let added = 0
@@ -254,9 +622,13 @@ export async function POST() {
   }
 
   await logAudit({
-    action: 'knowledge_seeded',
-    details: { added, total_starter_entries: STARTER_ENTRIES.length },
+    action: 'knowledge_library_seeded',
+    details: { added, total_entries: LIBRARY.length },
   })
 
-  return NextResponse.json({ message: `Added ${added} starter knowledge entries.`, added })
+  return NextResponse.json({
+    message: `Added ${added} law library entries.`,
+    added,
+    categories: ['UCC', 'Constitutional', 'Procedural', 'Common Law', 'FDCPA', 'Administrative', 'Templates'],
+  })
 }

@@ -19,7 +19,10 @@
     "mammoth": "^1.7.2",
     "lucide-react": "^0.400.0",
     "clsx": "^2.1.1",
-    "date-fns": "^3.6.0"
+    "date-fns": "^3.6.0",
+    "stripe": "^16.0.0",
+    "@stripe/stripe-js": "^4.0.0",
+    "@stripe/react-stripe-js": "^2.7.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

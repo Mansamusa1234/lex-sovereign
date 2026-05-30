@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+  <rect width="1080" height="1920" fill="#020617"/>
+  <defs>
+    <radialGradient id="sg1" cx="50%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#020617" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="sg2" cx="50%" cy="80%" r="50%">
+      <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#020617" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="sg3" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="50%" stop-color="#fcd34d"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#sg1)"/>
+  <rect width="1080" height="1920" fill="url(#sg2)"/>
+  <pattern id="stgrid" width="60" height="60" patternUnits="userSpaceOnUse">
+    <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#f59e0b" stroke-width="0.5" opacity="0.06"/>
+  </pattern>
+  <rect width="1080" height="1920" fill="url(#stgrid)"/>
+  <!-- Logo area -->
+  <rect x="440" y="120" width="200" height="200" rx="40" fill="#f59e0b" fill-opacity="0.15" stroke="#f59e0b" stroke-width="2" stroke-opacity="0.4"/>
+  <text x="540" y="250" font-family="system-ui,sans-serif" font-size="120" text-anchor="middle">⚖</text>
+  <text x="540" y="380" font-family="system-ui,sans-serif" font-size="36" fill="#f59e0b" text-anchor="middle" font-weight="900" letter-spacing="4">LEX SOVEREIGN</text>
+  <text x="540" y="420" font-family="system-ui,sans-serif" font-size="22" fill="#475569" text-anchor="middle" letter-spacing="2">AI BRAIN</text>
+  <!-- Divider -->
+  <line x1="200" y1="480" x2="880" y2="480" stroke="#f59e0b" stroke-width="0.8" opacity="0.25"/>
+  <!-- Hook text -->
+  <text x="540" y="580" font-family="system-ui,sans-serif" font-size="52" fill="#94a3b8" text-anchor="middle">Did a debt collector</text>
+  <text x="540" y="650" font-family="system-ui,sans-serif" font-size="52" fill="#94a3b8" text-anchor="middle">just contact you?</text>
+  <!-- Main message -->
+  <text x="540" y="780" font-family="system-ui,sans-serif" font-size="100" fill="url(#sg3)" font-weight="900" text-anchor="middle">KNOW</text>
+  <text x="540" y="890" font-family="system-ui,sans-serif" font-size="100" fill="url(#sg3)" font-weight="900" text-anchor="middle">YOUR</text>
+  <text x="540" y="1000" font-family="system-ui,sans-serif" font-size="100" fill="white" font-weight="900" text-anchor="middle">RIGHTS.</text>
+  <!-- Rights list -->
+  <rect x="80" y="1060" width="920" height="420" rx="20" fill="#0f172a" stroke="#f59e0b" stroke-width="1" stroke-opacity="0.2"/>
+  <text x="540" y="1110" font-family="system-ui,sans-serif" font-size="28" fill="#f59e0b" text-anchor="middle" font-weight="700">YOUR LEGAL RIGHTS INCLUDE:</text>
+  <text x="120" y="1170" font-family="system-ui,sans-serif" font-size="28" fill="#94a3b8">✓ Right to Demand Debt Validation (FDCPA)</text>
+  <text x="120" y="1220" font-family="system-ui,sans-serif" font-size="28" fill="#94a3b8">✓ Right to Stop Collection Calls</text>
+  <text x="120" y="1270" font-family="system-ui,sans-serif" font-size="28" fill="#94a3b8">✓ Right to Dispute Credit Errors (FCRA)</text>
+  <text x="120" y="1320" font-family="system-ui,sans-serif" font-size="28" fill="#94a3b8">✓ Right to Cease &amp; Desist Order</text>
+  <text x="120" y="1370" font-family="system-ui,sans-serif" font-size="28" fill="#94a3b8">✓ UCC 1-308 — All Rights Reserved</text>
+  <text x="120" y="1420" font-family="system-ui,sans-serif" font-size="28" fill="#94a3b8">✓ Due Process (5th Amendment)</text>
+  <text x="120" y="1470" font-family="system-ui,sans-serif" font-size="28" fill="#94a3b8">✓ Up to $1,000 per FDCPA violation</text>
+  <!-- AI feature -->
+  <text x="540" y="1560" font-family="system-ui,sans-serif" font-size="32" fill="#64748b" text-anchor="middle">3 AI agents research the law</text>
+  <text x="540" y="1605" font-family="system-ui,sans-serif" font-size="32" fill="#64748b" text-anchor="middle">and draft your response</text>
+  <text x="540" y="1660" font-family="system-ui,sans-serif" font-size="28" fill="#334155" text-anchor="middle">Human approval always required</text>
+  <!-- CTA -->
+  <rect x="140" y="1720" width="800" height="100" rx="24" fill="#f59e0b"/>
+  <text x="540" y="1783" font-family="system-ui,sans-serif" font-size="40" fill="#020617" font-weight="900" text-anchor="middle">START FREE TODAY →</text>
+  <!-- URL -->
+  <text x="540" y="1870" font-family="monospace,sans-serif" font-size="26" fill="#334155" text-anchor="middle">lex-sovereign-f6m4.vercel.app</text>
+  <text x="540" y="1910" font-family="system-ui,sans-serif" font-size="20" fill="#1e293b" text-anchor="middle">Not a lawyer · Educational tool only</text>
+</svg>
