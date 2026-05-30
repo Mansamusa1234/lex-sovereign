@@ -17,7 +17,7 @@ export default function DraftEditor({ approval, onDecision }: Props) {
   const [editing, setEditing] = useState(false)
   const [editedBody, setEditedBody] = useState(draft.human_edit ?? draft.body)
   const [notes, setNotes] = useState('')
-  const [loading, setLoading] = useState<'approve' | 'reject' | null>(null)
+  const [loading, setLoading] = useState<'approved' | 'rejected' | null>(null)
 
   async function handle(decision: 'approved' | 'rejected') {
     setLoading(decision)
