@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { Check, Zap, Shield, Building2, Star } from 'lucide-react'
-import { PLANS } from '@/lib/stripe'
+import { PLANS } from '@/lib/plans'
 import clsx from 'clsx'
 
 const PLAN_ICONS = { free: Shield, pro: Zap, business: Building2 }
