@@ -30,10 +30,10 @@ export async function chat(
   messages.push({ role: 'user', content: userMessage })
 
   const res = await openai.chat.completions.create({
-    model: 'gpt-4o',
+    model: 'gpt-4o-mini',
     messages,
     temperature: 0.2,
-    max_tokens: 4096,
+    max_tokens: 800,
   })
   return res.choices[0].message.content ?? ''
 }
@@ -55,11 +55,11 @@ export async function* streamChat(
   messages.push({ role: 'user', content: userMessage })
 
   const stream = await openai.chat.completions.create({
-    model: 'gpt-4o',
+    model: 'gpt-4o-mini',
     messages,
     stream: true,
     temperature: 0.2,
-    max_tokens: 4096,
+    max_tokens: 800,
   })
 
   for await (const chunk of stream) {
@@ -104,7 +104,7 @@ ${draftText}`
 
   try {
     const raw = await openai.chat.completions.create({
-      model: 'gpt-4o',
+      model: 'gpt-4o-mini',
       messages: [{ role: 'user', content: prompt }],
       temperature: 0,
       response_format: { type: 'json_object' },
